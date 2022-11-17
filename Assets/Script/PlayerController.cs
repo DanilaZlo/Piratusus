@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
-
+using UnityEngine.SceneManagement;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody2D rb;
@@ -19,9 +19,12 @@ public class PlayerController : MonoBehaviour
     public bool isGrounded = false;
     public float checkGroundOffsetY = -1.1f;
     public float checkGroundRadius = 0.3f;
+    float SX, SY;
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>(); 
+        rb = GetComponent<Rigidbody2D>();
+        SX = transform.position.x;
+        SY = transform.position.y;
     }
 
     
@@ -74,6 +77,17 @@ public class PlayerController : MonoBehaviour
         else
         {
             isGrounded = false;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.name == "DeadZone")
+        {
+            transform.position = new Vector3(SX, SY, transform.position.z);
+        }
+        if (collision.gameObject.name == "NextLVL")
+        {
+            SceneManager.LoadScene("Lvl2");
         }
     }
 }  
