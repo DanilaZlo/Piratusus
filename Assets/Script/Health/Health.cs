@@ -6,7 +6,12 @@ public class Health : MonoBehaviour
     public float currentHealth { get; private set; }
     private Animator anim;
     private bool dead;
+    public GameObject DeadScreen;
 
+    private void Start()
+    {
+        DeadScreen.SetActive(false);
+    }
     private void Awake()
     {
         currentHealth = startingHealth;
@@ -22,12 +27,18 @@ public class Health : MonoBehaviour
         }
         else
         {
-            if(!dead)
+            Destroy(gameObject);
+            if (dead == false)
+            {
+                DeadScreen.SetActive(true);
+            }
+            /*if(!dead)
             {
                 anim.SetTrigger("die");
                 GetComponent<PlayerController>().enabled = false;
                 dead = true;
-            }    
+             
+            }*/
         }
     }
     public void AddHealth(float _value)
